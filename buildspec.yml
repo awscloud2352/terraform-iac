@@ -3,11 +3,19 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo "Installing Terraform..."
-      - curl -o terraform.zip https://releases.hashicorp.com/terraform/1.5.7/terraform_1.5.7_linux_amd64.zip
-      - unzip terraform.zip
-      - mv terraform /usr/local/bin/
-      - terraform -version
+      - echo "Installing yum-utils..."
+      - sudo yum install -y yum-utils
+      - echo "Adding HashiCorp repo..."
+      - sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+      - echo "Installing Terraform v1.15.0..."
+      - sudo yum install -y terraform-1.15.0
+      - terraform version
+
+  pre_build:
+    commands:
+      - echo "Preparing environment..."
+      - pwd
+      - ls -al
 
   build:
     commands:
@@ -17,5 +25,17 @@ phases:
       - ls -al
       - echo "Running terraform init..."
       - terraform init
+      - echo "Running terraform validate..."
+      - terraform validate
+      - echo "Running terraform plan..."
+      - terraform plan
       - echo "Running terraform apply..."
       - terraform apply -auto-approve
+
+  post_build:
+    commands:
+      - echo "Terraform execution complete."
+      - echo "Listing state files in dev folder..."
+      - ls -al dev
+      - echo "Build finished successfully."
+    - '**/*'
