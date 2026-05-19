@@ -4,11 +4,11 @@ phases:
   install:
     commands:
       - echo "Installing yum-utils..."
-      - sudo yum install -y yum-utils
+      - yum install -y yum-utils
       - echo "Adding HashiCorp repo..."
-      - sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+      - yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
       - echo "Installing Terraform v1.15.0..."
-      - sudo yum install -y terraform-1.15.0
+      - yum install -y terraform-1.15.0
       - terraform version
 
   pre_build:
@@ -36,6 +36,9 @@ phases:
     commands:
       - echo "Terraform execution complete."
       - echo "Listing state files in dev folder..."
-      - ls -al dev
+      - ls -al
       - echo "Build finished successfully."
+
+artifacts:
+  files:
     - '**/*'
