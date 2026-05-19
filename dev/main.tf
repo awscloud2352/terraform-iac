@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "infra_services" {
-  source = "../modules/infra_services"
+  source = "../modules/services/infra_services"
   cloud_env = "dev"
   vpc_tag_name = "dev_vpc"
   instance_count = "1"
