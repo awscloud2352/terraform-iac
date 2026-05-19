@@ -9,20 +9,13 @@ phases:
       - mv terraform /usr/local/bin/
       - terraform -version
 
-  pre_build:
+  build:
     commands:
       - echo "Navigating into dev folder..."
       - cd dev
       - pwd
       - ls -al
-
-  build:
-    commands:
       - echo "Running terraform init..."
       - terraform init
       - echo "Running terraform apply..."
       - terraform apply -auto-approve
-
-artifacts:
-  files:
-    - '**/*'
