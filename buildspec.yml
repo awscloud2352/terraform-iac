@@ -1,0 +1,44 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Installing yum-utils..."
+      - yum install -y yum-utils
+      - echo "Adding HashiCorp repo..."
+      - yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+      - echo "Installing Terraform v1.15.0..."
+      - yum install -y terraform-1.15.0
+      - terraform version
+
+  pre_build:
+    commands:
+      - echo "Preparing environment..."
+      - pwd
+      - ls -al
+
+  build:
+    commands:
+      - echo "Navigating into dev folder..."
+      - cd dev
+      - pwd
+      - ls -al
+      - echo "Running terraform init..."
+      - terraform init
+      - echo "Running terraform validate..."
+      - terraform validate
+      - echo "Running terraform plan..."
+      - terraform plan
+      - echo "Running terraform apply..."
+      - terraform destroy -auto-approve
+
+  post_build:
+    commands:
+      - echo "Terraform execution complete."
+      - echo "Listing state files in dev folder..."
+      - ls -al
+      - echo "Build finished successfully."
+
+artifacts:
+  files:
+    - '**/*'
